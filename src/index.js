@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './styles.module.css'
 
-export const ExampleComponent = ({ props }) => {
+export const ExampleComponent = (props) => {
   console.log(props.option)
   const inputList = props.value.map((ele) => (
     // eslint-disable-next-line react/jsx-key
