@@ -9,7 +9,7 @@
   font-size: 2em;
   text-align: center;
 }
-
+/*
 .navigationH {
   display: flex;
   width: 90%;
@@ -17,7 +17,7 @@
   margin: 50px 0px 0px 50px;
   
 }
-
+*/
 .menuitemH {
   height: 40px;
   width: 90%;
@@ -31,16 +31,18 @@
   background-color: lightcoral;
 }
 
-.menuitemH li {
+.menuitemH li 
+ {
   display: inline-block;
   padding: 10px 20px 20px 20px;
   }
-
+/*
   .navigationV {
     width: 20%;
     height: 80%;
   
   }
+  */
   
   .menuitemV {
     height: 500px;
@@ -62,5 +64,17 @@
     padding: 10px 20px 20px 20px;
     }
 
+    .mainEl li {
+      position: relative;
+      color: blue;
+    }
 
+.subEl ul {
+  position: absolute;
+}
+
+button {
+ position: relative;
+ height: 30px;
+}
 
