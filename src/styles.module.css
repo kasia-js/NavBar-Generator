@@ -2,49 +2,93 @@
 * {
   box-sizing: border-box;
 }
-.test {
-  margin: 2em;
-  padding: 0.5em;
-  border: 2px solid #000;
-  font-size: 2em;
-  text-align: center;
-}
-/*
-.navigationH {
-  display: flex;
-  width: 90%;
-  height: 100px;
-  margin: 50px 0px 0px 50px;
-  
-}
-*/
+
 .menuitemH {
   height: 40px;
-  width: 90%;
-  margin: 50px 50px 50px 50px;
+  width: 100%;
   display: flex;
   justify-content: space-around;
-  color: black;
-  border: 1px solid black;
+  color:white;
+  font-weight:bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border: 1px solid lightgray;
   border-radius: 5px;
-  padding: 2px 20px 20px 20px;
-  background-color: lightcoral;
+  background-color:slategray;
+  /*position: relative;*/
+}
+
+.searchBarH {
+height: 40px;
+margin-top: 15px;
+}
+
+.menuitemHRTL {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  color:white;
+  font-weight:bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color:slategray;
+  /*position: relative;*/
 }
 
 .menuitemH li 
  {
   display: inline-block;
+ /* position: relative;*/
   padding: 10px 20px 20px 20px;
   }
-/*
-  .navigationV {
-    width: 20%;
-    height: 80%;
-  
+
+  .menuitemHRTL li 
+ {
+  display: inline-block;
+ /* position: relative;*/
+  padding: 10px 20px 20px 20px;
   }
-  */
   
   .menuitemV {
+    height: 100vh;
+    width: fit-content;
+    margin: 20px 20px 20px 20px;
+    display: flex;
+    float:left;
+    flex-direction: column;
+    align-items: center;
+    color:white;
+    font-weight:bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color:black;
+  padding: 20px 20px 20px 20px;
+
+  list-style: outside none none;
+  }
+
+  .searchBarV {
+    height: 50px;
+  }
+
+  .searchBarVInput {
+    border-radius: 20px;
+    padding: 5px 10px 10px;
+    margin: 10px 10px 10px 10px;
+  }
+
+  
+
+  .menuitemV li {
+    display: inline-block;
+    position:relative;
+    padding: 10px 0px 20px 0px;
+    }
+
+  .menuitemVRTL {
     height: 500px;
     width: 20%;
     margin: 50px 50px 50px 50px;
@@ -52,29 +96,83 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    color: black;
+    color:white;
     border: 1px solid black;
     border-radius: 5px;
     padding: 2px 20px 20px 20px;
     background-color: lightgrey;
+    float: right;
   }
 
-  .menuitemV li {
+  ul li:hover {
+      background-color: grey;
+  }
+
+  .menuitemNestedV {
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    color: black;
+    border-radius: 1px;
+    padding: 10px 0px 10px 0px;
+    margin-top: 10px;
+    background-color:lightgray;
+    
+  }
+
+  .menuitemNestedVRTL {
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: left;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px 0px 10px 0px;
+    background-color: yellow;
+  }
+
+  
+
+  .menuitemVRTL li {
     display: inline-block;
-    padding: 10px 20px 20px 20px;
+    padding: 10px 0px 20px 0px;
     }
 
-    .mainEl li {
-      position: relative;
-      color: blue;
+    .menuitemNestedH {
+      height: fit-content;
+      width: fit-content;
+      display: flex;
+      flex-direction: row;
+      align-self: flex-start;
+      color: black;
+      border-radius: 1px;
+      padding: 10px 0px 10px 0px;
+      margin-top: 10px;
+      margin-left: 34px;
+      background-color: lightgray;
+      left:100%;
+      top:0;
+      z-index: 9999;
+      transition: all 0.5s ease 0s;
     }
 
-.subEl ul {
+.menuitemNestedH li {  
+  display:inline-block;
+}
+  
+
+.dropdownContent {
+  display:none;
   position: absolute;
+  color: red;
+  background-color: lightgray;
 }
 
-button {
- position: relative;
- height: 30px;
+.dropdown-content ul li:hover {
+  background-color: lightgray;
 }
-

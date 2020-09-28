@@ -1,0 +1,18 @@
+{"menu": [
+    {
+      "id":1,
+      "text":"Home",
+      "children":[{"id":1.1,"text":"About Us"}]
+    },
+    {
+      "id":2,
+      "text":"Services",
+      "children":[{"id":2.1,"text":"Consulting"},{"id":2.2,"text":"Projects"}]
+    },
+    {
+      "id":3,
+      "text":"Contact Us",
+      "children":[{"id":3.1,"text":"Contact Info"},{"id":3.1,"text":"Reach us on mail"}]
+    }
+]
+}

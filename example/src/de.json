@@ -1,0 +1,18 @@
+{"menu":[
+    {
+      "id":1,
+      "text":"katze",
+      "children":[{"id":1.1,"text":"katzchen ein"},{"id":1.2,"text":"katzchen zwei"}]
+    },
+    {
+      "id":2,
+      "text":"നായ",
+      "children":[{"id":2.1,"text":"hundchen ein"},{"id":2.2,"text":"hundchen zwei"}]
+    },
+    {
+      "id":3,
+      "text":"mann",
+      "children":[{"id":3.1,"text":"kinder ein"},{"id":3.1,"text":"kinder zwei"}]
+    }
+  ]
+}

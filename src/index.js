@@ -1,107 +1,221 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect, useRef } from 'react'
 
 import styles from './styles.module.css'
 
-import { NavLink } from 'react-router-dom'
+const icon = require('../example/src/assets/menuIcon.jpeg')
+const searchIcon = require('../example/src/assets/searchIcon.png')
 
 export const ExampleComponent = (props) => {
-  const [isShown, setIsShown] = useState(false)
-  var nestedChildren
+  var langjson
+  var inputMenu
+  var orientation
 
-  function onEnter(e) {
-    console.log(isShown, 'from on enter')
-    setIsShown(true)
-    const idValue = Number(e.target.id)
-    const nestedParent = props.value.find((ele) => ele.id === idValue)
-    nestedChildren = nestedParent.children.map((subEl) => {
-      console.log('inside map of children')
-      console.log(subEl.text)
-      // eslint-disable-next-line prettier/prettier
-       return (
-        <>
-          <li>{subEl.text}</li>
-        </>
-      )
-    })
+  if (props.orientation === 'rtl') orientation = 'RTL'
+  else orientation = 'LTR'
+
+  if (props.lang === 'en') {
+    langjson = require('../example/src/en.json')
+  } else if (props.lang === 'de') {
+    langjson = require('../example/src/de.json')
+  } else if (props.lang === 'ar') {
+    langjson = require('../example/src/ar.json')
   }
-  console.log(nestedChildren)
 
-  function onLeave(e) {
+  console.log(langjson)
+  inputMenu = langjson.menu
+  console.log('input menu', inputMenu)
+
+  const len = inputMenu.length
+  const [isShown, setIsShown] = useState(false)
+  const [input, setInput] = useState('')
+
+  const node = useRef()
+
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener('mousedown', handleClick)
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener('mousedown', handleClick)
+    }
+  }, [])
+
+  //  function to generate the nested drop-down items on mouse event on a nested parent menu item
+  const handleClick = (e) => {
+    if (node.current.contains(e.target)) {
+      return showSubMenu(e)
+    } else {
+      return hideSubMenu()
+    }
+  }
+  function showSubMenu(text) {
+    // console.log(e.target.text)
+    setIsShown(text)
+  }
+
+  function hideSubMenu(e) {
     setIsShown(false)
   }
 
-  const inputList = props.value.map(function (ele) {
+  // to handle any dearch functionality passed as props by user to search made available on navbar
+  function handleChange(e) {
+    setInput(e.target.value)
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    setInput('')
+    props.searchFunction()
+  }
+
+  // to generate the entire list of main menu items from the props received
+  const inputList = inputMenu.map(function (ele) {
     if (ele.children.length === 0) {
-      return (
-        <li id={ele.id} className='styles.menuItemH'>
-          {ele.text}
-        </li>
-      )
-    }
-    // eslint-disable-next-line no-unused-expressions
-    // eslint-disable-next-line no-unused-expressions
-    else
+      return <li id={ele.id}>{ele.text}</li>
+    } else
       return (
         <>
           <li
+            ref={node}
             id={ele.id}
-            className='mainEl'
-            onMouseEnter={onEnter}
-            onMouseLeave={onLeave}
+            onClick={() => showSubMenu(ele.text)}
+            style={{
+              position: 'relative',
+              float: 'right'
+            }}
           >
             {ele.text}
+            {props.option === 'horizontal' && (
+              <ul
+                className={
+                  orientation === 'RTL'
+                    ? styles.menuitemNestedVRTL
+                    : styles.menuitemNestedV
+                }
+                style={
+                  isShown === ele.text
+                    ? {
+                        position: 'absolute',
+                        display: 'block',
+                        float: 'right',
+                        backgroundColor: props.theme
+                      }
+                    : { display: 'none' }
+                }
+              >
+                {ele.children.map((subEl) => (
+                  // eslint-disable-next-line react/jsx-key
+                  <li>{subEl.text}</li>
+                ))}
+              </ul>
+            )}
+            {props.option === 'vertical' && (
+              <ul
+                className={
+                  orientation === 'RTL'
+                    ? styles.menuitemNestedHRTL
+                    : styles.menuitemNestedH
+                }
+                style={
+                  isShown === ele.text
+                    ? {
+                        position: 'absolute',
+                        display: 'block',
+                        float: 'right',
+                        backgroundColor: props.theme
+                      }
+                    : { display: 'none' }
+                }
+              >
+                {ele.children.map((subEl) => (
+                  // eslint-disable-next-line react/jsx-key
+                  <li>{subEl.text}</li>
+                ))}
+              </ul>
+            )}
           </li>
-
-          <ul className='subEl'>
-            {ele.children.map((subEl) => (
-              // eslint-disable-next-line react/jsx-key
-              <li>{subEl.text}</li>
-            ))}
-          </ul>
         </>
       )
   })
 
-  // const nestedList = props.value
-  //   .filter((ele) => ele.children.length > 0)
-  //   .map((ele) => {
-  //     // eslint-disable-next-line react/jsx-key
-  //     // if (isShown) {
-  //     return (
-  //       <ul
-  //       // onMouseEnter={() => console.log('mouse enter')}
-  //       // onMouseLeave={() => console.log('mouse leave')}
-  //       >
-  //         {ele.children.map((subEl) => (
-  //           <li>{subEl.text}</li>
-  //         ))}
-  //       </ul>
-  //     )
-  //     // }
-  //   })
-
   return (
     <div>
-      {props.option === 'horizontal' && (
-        <div>
-          <ul className={styles.menuitemH}>{inputList}</ul>
+      {props.option === 'horizontal' && props.orientation === 'ltr' && (
+        <div className='navbar'>
+          <ul
+            className={styles.menuitemH}
+            style={props.theme ? { backgroundColor: props.theme } : {}}
+          >
+            <img src={icon} alt='menu icon' width='50px' height='40px' />
+            {inputList}
+            <div
+              style={
+                props.search
+                  ? { display: 'inline - block' }
+                  : { display: 'hidden' }
+              }
+              className='searchBarH'
+            >
+              <input
+                className='searchBarVInput'
+                type='text'
+                placeholder='Search'
+                onChange={handleChange}
+              />
+              <button
+                type='submit'
+                className='form-submit'
+                onSubmit={handleSubmit}
+              >
+                Go
+              </button>
+            </div>
+          </ul>
         </div>
       )}
-      {props.option === 'vertical' && (
-        <div className={styles.menuitemV}>{nestedChildren}</div>
+      {props.option === 'horizontal' && props.orientation === 'rtl' && (
+        <div className='navbar'>
+          <ul
+            className={styles.menuitemHRTL}
+            style={props.theme ? { backgroundColor: props.theme } : {}}
+          >
+            <img src={icon} alt='menu icon' width='50px' height='40px' />
+            {inputList}
+          </ul>
+        </div>
+      )}
+      {props.option === 'vertical' && props.orientation === 'ltr' && (
+        <div className='navbar'>
+          <ul
+            className={styles.menuitemV}
+            style={props.theme ? { backgroundColor: props.theme } : {}}
+          >
+            <img src={icon} alt='menu icon' width='50px' height='40px' />
+            <div
+              style={
+                props.search
+                  ? { display: 'inline - block' }
+                  : { display: 'hidden' }
+              }
+              className='searchBarV'
+            >
+              <input
+                className='searchBarVInput'
+                type='text'
+                placeholder='Search'
+              />
+              <img
+                src={searchIcon}
+                alt='search icon'
+                width='30px'
+                height='30px'
+                className='searchImg'
+              />
+            </div>
+            {inputList}
+          </ul>
+        </div>
       )}
     </div>
   )
 }
-
-// {isShown && isNested && console.log('Nested ele to be rendered')}
-// import { NavLink, Route } from 'react-router-dom'
-// navlink from react router dom --> name of menu, path
-// in case of optional nested ele, dropdown ,
-// one level of nesting
-// some customizable options for user as width, color
-
-// <Router>
-//   <NavLink to='/'>{ele.text}</NavLink>
-//   <Route path='/' component={ele.text} />
-// </Router>
