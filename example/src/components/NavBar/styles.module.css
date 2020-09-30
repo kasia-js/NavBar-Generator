@@ -3,6 +3,11 @@
   box-sizing: border-box;
 }
 
+.navBarH {
+  display: flex;
+
+}
+
 .menuitemH {
   height: 40px;
   width: 100%;
@@ -19,7 +24,11 @@
 
 .searchBarH {
 height: 40px;
-margin-top: 15px;
+margin-top: 10px;
+}
+
+.searchBarHInput {
+  border-radius: 5px;
 }
 
 .menuitemHRTL {
@@ -72,31 +81,23 @@ margin-top: 15px;
   border: 1px solid lightgray;
   border-radius: 5px;
   background-color:black;
-  padding: 20px 20px 20px 20px;
+  padding: 25px 25px 25px 25px;
   list-style: outside none none;
   }
-
-  .searchBarVInput {
-   width:20px;
-   height:10px;
-  }
-
   .searchBarV {
-    width: 20px;
-    height: 20px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
   }
-  .buttonV {
-  color:red;
-  height:30px;
-  display:flex;
-  justify-content: center;
-  align-items: center;
 
-  }
+ 
+   
+   .formsubmit {
+     border: 1px solid black;
+     border-radius: 5px;
+   }
+
 
   .menuitemV li {
     display: inline-block;
@@ -132,7 +133,7 @@ margin-top: 15px;
     align-self: flex-start;
     color: black;
     border-radius: 1px;
-    padding: 10px 0px 10px 0px;
+    padding: 10px 10px 10px 10px;
     margin-top: 10px;
     background-color:lightgray;
     
@@ -169,8 +170,8 @@ margin-top: 15px;
       border-radius: 1px;
       padding: 10px 20px 10px 0px;
       margin-top: 10px;
-      margin-left: 34px;
-      background-color: lightgray;
+      margin-left: 25px;
+      background-color: gainsboro;
       left:100%;
       top:0;
       z-index: 9999;

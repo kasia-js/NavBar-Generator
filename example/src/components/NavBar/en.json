@@ -12,7 +12,7 @@
     },
     {
       "id":3,
-      "text":"Contact Us",
+      "text":"Contact",
       "children":[{"id":3.1,"text":"Contact Info","path":"/info"},{"id":3.1,"text":"Reach us on mail","path":"/help"}]
     }
 ]
