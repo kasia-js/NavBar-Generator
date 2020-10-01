@@ -1,6 +1,6 @@
-import React from 'react'
+import * as React from "react";
 import {BrowserRouter, Switch, Route } from 'react-router-dom'
-import 'react-navbar-generator/dist/index.css'
+// import 'react-navbar-generator/dist/index.css'
 
 import About from './components/About.js'
 import Consulting from './components/Consulting.js'
@@ -11,8 +11,7 @@ import Help from './components/Help.js'
 import NavBar from './components/NavBar/NavBar.component.js'
 
 
-
-const App = () => {  
+const App = () => {
   function userFunction () {
     return (
      <h4> Your Search Results are as follows </h4>
@@ -21,7 +20,7 @@ const App = () => {
   return (
     <>
     <BrowserRouter>
-    <NavBar option = "vertical" lang="en" orientation = "ltr" theme="slategrey"/>  
+    <NavBar option = "vertical" lang="en" orientation = "ltr" theme="slategrey"/>
        <Switch>
           <Route exact path="/about" component={About} />
           <Route path="/consulting" component={Consulting}/>

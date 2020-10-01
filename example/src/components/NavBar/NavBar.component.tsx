@@ -7,11 +7,24 @@ import useClickOutside from './customHook.js'
 const icon = require('../../assets/menuIcon.jpeg')
 const searchIcon = require('../../assets/searchIcon.png')
 
+interface Props {
+  orientation: string,
+  lang: string,
+  searchFunction: Function,
+  option: string,
+  theme: string,
+  search: string
+};
 
+interface Language {
+  id: number,
+  text: string,
+  children: []
+}
 
-const NavBar = (props) => {
+const NavBar = (props: Props): JSX.Element => {
   var langjson
-  var inputMenu
+  var inputMenu : [];
   var orientation
 
   if (props.orientation === 'rtl') orientation = 'RTL'
@@ -26,15 +39,15 @@ const NavBar = (props) => {
   }
 
   inputMenu = langjson.menu
-  
-  const [isShown, setIsShown] = useState(false)
-  const [input, setInput] = useState('')
+
+  const [isShown, setIsShown] = useState<boolean>(false);
+  const [input, setInput] = useState<string>('');
 
   const dropDown = useRef([React.createRef(),React.createRef()])
 
   useClickOutside(isShown, dropDown.current[0], hideSubMenu, 'Services')
   useClickOutside(isShown, dropDown.current[1], hideSubMenu, 'Contact')
-  
+
 
   //  function to generate the nested drop-down items on mouse event on a nested parent menu item
 //   const handleClick = function (e,text,id) {
@@ -56,14 +69,13 @@ const NavBar = (props) => {
   }
 
   // to handle any dearch functionality passed as props by user to search made available on navbar
-  function handleChange(e) {
+  function handleChange(e: React.FormEvent<HTMLInputElement>) {
     setInput(e.target.value)
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault()
     setInput('')
-    console.log(input)
     return (
       <h2>Your Search results are as follows</h2>
     )
@@ -71,7 +83,7 @@ const NavBar = (props) => {
   }
 
   // to generate the entire list of main menu items from the props received
-  const inputList = inputMenu.map(function (ele, index) {
+  const inputList = inputMenu.map(function (ele: Language, index) {
     if (ele.children.length === 0) {
       return (
         <li id={ele.id}>
@@ -82,7 +94,7 @@ const NavBar = (props) => {
       return (
         <>
           <li
-            
+
             id={ele.id}
             onClick={() => showSubMenu(ele.text)}
             style={
@@ -93,15 +105,15 @@ const NavBar = (props) => {
                         color:'black'
                       }
                     : {  position: 'relative',
-                    float: 'right',
-                    color:'white' }
+                        float: 'right',
+                        color:'white' }
             }
           >
             {ele.text}
             {props.option === 'horizontal' && (
               <div ref={dropDown.current[index - 1]}>
               <ul
-             
+
                 className={
                   orientation === 'RTL'
                     ? styles.menuitemNestedVRTL
@@ -154,7 +166,7 @@ const NavBar = (props) => {
               >
                 {ele.children.map((subEl) => (
                   // eslint-disable-next-line react/jsx-key
-                 
+
                   <li><Link to={subEl.path} style={{textDecoration:'none',color:'black'}}>{subEl.text}</Link></li>
                 ))}
               </ul>
@@ -166,7 +178,7 @@ const NavBar = (props) => {
   })
 
   return (
-   
+
       <div>
         {props.option === 'horizontal' && props.orientation === 'ltr' && (
           <div className='navbarH'>
@@ -201,10 +213,10 @@ const NavBar = (props) => {
                     Go
                   </button>
                   </div>
-            
-                
+
+
               </ul>
-             
+
             </nav>
           </div>
         )}
