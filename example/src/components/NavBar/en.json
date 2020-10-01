@@ -1,4 +1,6 @@
-{"menu": [
+
+{
+  "menu": [
     {
       "id":1,
       "text":"Home",
@@ -15,5 +17,5 @@
       "text":"Contact",
       "children":[{"id":3.1,"text":"Contact Info","path":"/info"},{"id":3.1,"text":"Reach us on mail","path":"/help"}]
     }
-]
+  ]
 }

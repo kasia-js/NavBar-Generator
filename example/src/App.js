@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from 'react'
 import {BrowserRouter, Switch, Route } from 'react-router-dom'
 // import 'react-navbar-generator/dist/index.css'
 
@@ -8,10 +8,11 @@ import Projects from './components/Projects.js'
 import Ventures from './components/Ventures.js'
 import Info from './components/Info.js'
 import Help from './components/Help.js'
-import NavBar from './components/NavBar/NavBar.component.tsx';
+import NavBar from './components/NavBar/NavBar.component.js'
 
 
-const App = (): JSX.Element => {
+
+const App = () => {
   function userFunction () {
     return (
      <h4> Your Search Results are as follows </h4>
@@ -20,7 +21,7 @@ const App = (): JSX.Element => {
   return (
     <>
     <BrowserRouter>
-    <NavBar option = "vertical" lang="en" orientation = "ltr" theme="slategrey"/>
+    <NavBar option = "horizontal" lang="en" orientation = "ltr" theme="dodgerblue"/>
        <Switch>
           <Route exact path="/about" component={About} />
           <Route path="/consulting" component={Consulting}/>

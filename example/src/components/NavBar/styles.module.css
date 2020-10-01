@@ -9,7 +9,7 @@
 }
 
 .menuitemH {
-  height: 40px;
+  height: 100px;
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -46,14 +46,14 @@ margin-top: 10px;
   /*position: relative;*/
 }
 
-.menuitemH li 
+.menuitemH li
  {
   display: inline-block;
  /* position: relative;*/
   padding: 10px 20px 20px 20px;
   }
 
-  .menuitemHRTL li 
+  .menuitemHRTL li
  {
   display: inline-block;
  /* position: relative;*/
@@ -66,7 +66,7 @@ margin-top: 10px;
     justify-content: center;
     align-items: center;
   }
-  
+
   .menuitemV {
     height: 100vh;
     width: fit-content;
@@ -91,8 +91,8 @@ margin-top: 10px;
     align-items: center;
   }
 
- 
-   
+
+
    .formsubmit {
      border: 1px solid black;
      border-radius: 5px;
@@ -136,7 +136,7 @@ margin-top: 10px;
     padding: 10px 10px 10px 10px;
     margin-top: 10px;
     background-color:lightgray;
-    
+
   }
 
   .menuitemNestedVRTL {
@@ -153,7 +153,7 @@ margin-top: 10px;
     background-color: yellow;
   }
 
-  
+
 
   .menuitemVRTL li {
     display: inline-block;
@@ -178,10 +178,10 @@ margin-top: 10px;
       transition: all 0.5s ease 0s;
     }
 
-.menuitemNestedH li {  
+.menuitemNestedH li {
   display:inline-block;
 }
-  
+
 
 .dropdownContent {
   display:none;
