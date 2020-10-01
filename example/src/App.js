@@ -1,6 +1,8 @@
 import React from 'react'
 import {BrowserRouter, Switch, Route } from 'react-router-dom'
-import 'react-navbar-generator/dist/index.css'
+// import 'react-navbar-generator/dist/index.css'
+
+import './index.css'
 
 import About from './components/About.js'
 import Consulting from './components/Consulting.js'
@@ -21,7 +23,7 @@ const App = () => {
   return (
     <>
     <BrowserRouter>
-    <NavBar option = "vertical" lang="en" orientation = "ltr" theme="slategrey"/>  
+    <NavBar option = "horizontal" lang="en" orientation = "ltr" theme="slategrey"/>  
        <Switch>
           <Route exact path="/about" component={About} />
           <Route path="/consulting" component={Consulting}/>
