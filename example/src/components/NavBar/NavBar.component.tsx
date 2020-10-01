@@ -42,7 +42,7 @@ const NavBar = (props: Props): JSX.Element => {
   let inputMenu : Menu[] = langjson.menu;
 
 
-  const [isShown, setIsShown] = useState<string>(''); //isShown is boolean but later passed text string??
+  const [isShown, setIsShown] = useState<string>(''); //isShown was boolean but later passed text string??
   const [input, setInput] = useState<string>('');
 
   const dropDown = useRef([React.createRef(),React.createRef()])
@@ -66,12 +66,12 @@ const NavBar = (props: Props): JSX.Element => {
   }
 
   function hideSubMenu() {
-    setIsShown(false) //setIsShown is passed boolean here???
+    setIsShown('') //changed false to ''
   }
 
   // to handle any dearch functionality passed as props by user to search made available on navbar
   function handleChange(e: React.FormEvent<HTMLInputElement>) {
-    setInput(e.target.value)
+    setInput(e.currentTarget.value)
   }
 
   function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
@@ -87,7 +87,7 @@ const NavBar = (props: Props): JSX.Element => {
   const inputList = inputMenu.map(function (ele: Menu, index: number) {
     if (ele.children.length === 0) {
       return (
-        <li id={ele.id}>
+        <li key={ele.id}>
           <Link to={ele.path} style={props.option=== 'vertical'? {textDecoration:'none',color:'black'}:{textDecoration:'none',color:'white'}}>{ele.text}</Link>
         </li>
       )
@@ -96,7 +96,7 @@ const NavBar = (props: Props): JSX.Element => {
         <>
           <li
 
-            id={ele.id}
+            key={ele.id}
             onClick={() => showSubMenu(ele.text)}
             style={
               props.option === 'vertical'

@@ -27,7 +27,7 @@ const NavBar = (props) => {
 
   inputMenu = langjson.menu
 
-  const [isShown, setIsShown] = useState(false)
+  const [isShown, setIsShown] = useState('')
   const [input, setInput] = useState('')
 
   const dropDown = useRef([React.createRef(),React.createRef()])
@@ -113,12 +113,14 @@ const NavBar = (props) => {
               <div ref={dropDown.current[index - 1]}>
 
           {/*children rendered in ul// checks isShown state*/}
+          {/*if isShown === 'services' or 'contact'*/}
               <ul
                 className={
                   orientation === 'RTL'
                     ? styles.menuitemNestedVRTL
                     : styles.menuitemNestedV
                 }
+
                 style={
                   isShown === ele.text
                     ? {
@@ -129,7 +131,9 @@ const NavBar = (props) => {
                       }
                     : { display: 'none' }
                 }
-              > {/* maps children and displays children in ul list => */}
+              >
+
+              {/* maps children and displays children in ul list => */}
                 {ele.children.map((subEl) => {
                   return (
                     <li>
