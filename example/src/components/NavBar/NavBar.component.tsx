@@ -45,7 +45,7 @@ const NavBar = (props: Props): JSX.Element => {
   const [isShown, setIsShown] = useState<string>(''); //isShown was boolean but later passed text string??
   const [input, setInput] = useState<string>('');
 
-  const dropDown = useRef([React.createRef(),React.createRef()])
+  const dropDown = useRef([React.createRef<HTMLDivElement>(),React.createRef<HTMLDivElement>()])
 
   useClickOutside(isShown, dropDown.current[0], hideSubMenu, 'Services')
   useClickOutside(isShown, dropDown.current[1], hideSubMenu, 'Contact')
@@ -95,7 +95,6 @@ const NavBar = (props: Props): JSX.Element => {
       return (
         <>
           <li
-
             key={ele.id}
             onClick={() => showSubMenu(ele.text)}
             style={
