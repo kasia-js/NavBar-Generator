@@ -1,6 +1,8 @@
 import React, { useState, Fragment, useEffect, useRef } from 'react'
 
-import styles from './styles.module.css'
+declare function require(name: string): any; //TODO replace any
+const styles = require('./styles.module.css')
+// import styles from './styles.module.css'
 import { Link, BrowserRouter } from 'react-router-dom'
 import useClickOutside from './customHook.js'
 import { stringify } from 'querystring'
@@ -74,7 +76,7 @@ const NavBar = (props: Props): JSX.Element => {
     setInput(e.currentTarget.value)
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
+  function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
     setInput('')
     return (
@@ -130,11 +132,10 @@ const NavBar = (props: Props): JSX.Element => {
                     : { display: 'none' }
                 }
               >
-                {ele.children.map((subEl) => {
+                {ele.children.map((subEl: Menu) => {
                   return (
 
                     <li>
-                      {/* <a href={`${url}${subEl.path}`}>{subEl.text}</a> */}
                       <Link to={subEl.path} style={{textDecoration:'none',color:'white'}}>{subEl.text}</Link>
                     </li>
                   )
@@ -161,7 +162,7 @@ const NavBar = (props: Props): JSX.Element => {
                     : { display: 'none' }
                 }
               >
-                {ele.children.map((subEl) => (
+                {ele.children.map((subEl: Menu) => (
                   // eslint-disable-next-line react/jsx-key
 
                   <li><Link to={subEl.path} style={{textDecoration:'none',color:'black'}}>{subEl.text}</Link></li>
@@ -253,7 +254,8 @@ const NavBar = (props: Props): JSX.Element => {
                     onChange={handleChange}
                   />
                   <br />
-                    <button type='submit' onClick={handleSubmit}>
+                    <button type='submit'
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit}>
                       Go
                     </button>
                 </div>

@@ -8,8 +8,7 @@ import Projects from './components/Projects.js'
 import Ventures from './components/Ventures.js'
 import Info from './components/Info.js'
 import Help from './components/Help.js'
-import NavBar from './components/NavBar/NavBar.component.tsx';
-
+import NavBar from './components/NavBar/NavBar.component'
 
 const App = (): JSX.Element => {
   function userFunction () {
