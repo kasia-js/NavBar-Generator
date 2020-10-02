@@ -16,16 +16,15 @@ interface Props {
   option: string,
   theme: string,
   search: string,
-  allOptions: []
+  optionsArray: []
 };
 
-interface Menu {
+interface Options {
   id: number,
   text: string,
-  children: {id: number, text: string, path: string}[], // Res: {} || string
-  path: string
+  children: {id: number, text: string, path?: string}[],
+  path?: string
 }
-
 
 const NavBar = (props: Props) => {
   let langjson;
@@ -42,20 +41,20 @@ const NavBar = (props: Props) => {
     langjson = require('./ar.json')
   }
 
-  let inputMenu : Menu[] = langjson.menu;
+  let inputMenu : Options[] = langjson.menu;
 
   interface Result {
     key: string,
-    property: boolean
+    property: boolean,
   }
 
-  const getSubMenuState = (navigationOptions: Menu[]) => {
+  const getSubMenuState = (navigationOptions: Options[]) => {
     const result: Result = {key: '', property: false};
-    navigationOptions.forEach((option: Menu) => result[option.text] = false)
+    navigationOptions.forEach((option: Options) => result[option.text] = false)
     return result;
   }
 
-  const [menuHeader, setMenuHeader] = useState(getSubMenuState(props.allOptions))
+  const [menuHeader, setMenuHeader] = useState<Result>(getSubMenuState(props.optionsArray));
   const [input, setInput] = useState<string>('')
 
   const dropDown = useRef([React.createRef<HTMLDivElement>(),React.createRef<HTMLDivElement>()])
@@ -63,19 +62,17 @@ const NavBar = (props: Props) => {
   useClickOutside(menuHeader, dropDown.current[0], hideSubMenu, 'Services')
   useClickOutside(menuHeader, dropDown.current[1], hideSubMenu, 'Contact')
 
-
-  function showSubMenu(key: string) { //key of isShown object
+  function showSubMenu(text: string) { //key of isShown object
     const newState: Result = {...menuHeader};
-    newState[key] = !newState[key]; //do we need to set boolean ts here
+    newState[text] = !newState[text]; //do we need to set boolean ts here
     setMenuHeader(newState);
   }
 
   function hideSubMenu() {
-    setMenuHeader(false)
+    setMenuHeader(false);
   }
 
-
-  function handleChange(e: React.FormEvent<HTMLInputElement>) { //question here: e.currenttarget.value
+  function handleChange(e: React.FormEvent<HTMLInputElement>) {
     setInput(e.currentTarget.value)
   }
 
@@ -89,7 +86,7 @@ const NavBar = (props: Props) => {
   }
 
   // to generate the entire list of main menu items from the props received
-  const inputList = inputMenu.map(function (ele: Menu, index: number) {
+  const inputList = inputMenu.map(function (ele: Options, index: number) {
     if (ele.children?.length === 0 ) { //if children defined & length=0
       return (
         <li key={ele.id}>
@@ -150,7 +147,7 @@ const NavBar = (props: Props) => {
                     : { display: 'none' }
                 }
               >
-                {ele?.children.map((subEl: Menu) => {
+                {ele?.children.map((subEl: Options) => {
                   // console.log('path from subEl', subEl.path)
                   return (
                     <li>
@@ -172,7 +169,7 @@ const NavBar = (props: Props) => {
                     : styles.menuitemNestedH
                 }
                 style={
-                  menuHeader === ele.text
+                  menuHeader[ele.text] === ele.text
                     ? {
                         position: 'absolute',
                         display: 'block',
@@ -182,7 +179,7 @@ const NavBar = (props: Props) => {
                     : { display: 'none' }
                 }
               >
-                {ele?.children.map((subEl: Menu) => (
+                {ele?.children.map((subEl: Options) => (
                   // eslint-disable-next-line react/jsx-key
 
                   <li><Link to={subEl.path} style={{textDecoration:'none',color:'black'}}>{subEl.text}</Link></li>

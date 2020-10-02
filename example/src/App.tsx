@@ -10,7 +10,7 @@ import Projects from './components/Projects.js'
 import Ventures from './components/Ventures.js'
 import Info from './components/Info.js'
 import Help from './components/Help.js'
-import NavBar from './components/NavBar/NavBar.component.js'
+import NavBar from './components/NavBar/NavBar.component';
 
 interface Options {
   id: number,
@@ -21,7 +21,7 @@ interface Options {
 
 const App = () => {
 
-  const optionsArray :Options[] = [
+  const optionsArray : Options[] = [
     {
       "id":1,
       "text":"Home",
