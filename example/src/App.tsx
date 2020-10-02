@@ -10,14 +10,16 @@ import Projects from './components/Projects.js'
 import Ventures from './components/Ventures.js'
 import Info from './components/Info.js'
 import Help from './components/Help.js'
-import NavBar from './components/NavBar/NavBar.component';
+import NavBar, {Options} from './components/NavBar/NavBar.component';
 
-interface Options {
-  id: number,
-  text: string,
-  children: {id: number, text: string, path?: string}[],
-  path?: string
-}
+
+// export interface Options {
+//   id: number,
+//   text: string,
+//   children: {id: number, text: string, path?: string}[],
+//   path?: string
+// }
+
 
 const App = () => {
 
@@ -37,7 +39,6 @@ const App = () => {
       "id":3,
       "text":"Contact",
       "children":[{"id":3.1,"text":"Contact Info","path":"/info"},{"id":3.1,"text":"Reach us on mail","path":"/help"}]
-
     }
 ]
 

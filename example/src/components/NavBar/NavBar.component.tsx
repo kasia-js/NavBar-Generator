@@ -1,29 +1,34 @@
 import React, { useState, useRef } from 'react'
 
-declare function require(name: string): any; //TODO replace any
-const styles = require('./styles.module.css')
+import styles from './styles.module.css';
 
 import { Link } from 'react-router-dom'
 import useClickOutside from './customHook.js'
 
-const icon = require('../../assets/menuIcon.jpeg')
-const searchIcon = require('../../assets/searchIcon.png')
+import icon from '../../assets/menuIcon.jpeg'; //loader for jpeg files
+// const searchIcon = require('../../assets/searchIcon.png')
 
 interface Props {
   orientation: string,
-  lang: string,
-  searchFunction: Function,
+  lang?: string,
+  searchFunction?: Function,
   option: string,
   theme: string,
   search: string,
-  optionsArray: []
+  optionsArray: Options[]
 };
 
-interface Options {
+export interface Options {
   id: number,
   text: string,
-  children: {id: number, text: string, path?: string}[],
+  children: Suboptions[],
   path?: string
+}
+
+interface Suboptions {
+  id: number,
+  text: string,
+  path: string
 }
 
 const NavBar = (props: Props) => {
@@ -44,13 +49,12 @@ const NavBar = (props: Props) => {
   let inputMenu : Options[] = langjson.menu;
 
   interface Result {
-    key: string,
-    property: boolean,
+    [key: string]: boolean,
   }
 
   const getSubMenuState = (navigationOptions: Options[]) => {
-    const result: Result = {key: '', property: false};
-    navigationOptions.forEach((option: Options) => result[option.text] = false)
+    let result: Result = {};
+    navigationOptions.forEach((option: Options) => result[option.text] = false);
     return result;
   }
 
@@ -59,8 +63,8 @@ const NavBar = (props: Props) => {
 
   const dropDown = useRef([React.createRef<HTMLDivElement>(),React.createRef<HTMLDivElement>()])
 
-  useClickOutside(menuHeader, dropDown.current[0], hideSubMenu, 'Services')
-  useClickOutside(menuHeader, dropDown.current[1], hideSubMenu, 'Contact')
+  // useClickOutside(menuHeader, dropDown.current[0], hideSubMenu, 'Services')
+  // useClickOutside(menuHeader, dropDown.current[1], hideSubMenu, 'Contact')
 
   function showSubMenu(text: string) { //key of isShown object
     const newState: Result = {...menuHeader};
@@ -68,9 +72,9 @@ const NavBar = (props: Props) => {
     setMenuHeader(newState);
   }
 
-  function hideSubMenu() {
-    setMenuHeader(false);
-  }
+  // function hideSubMenu() {
+  //   setMenuHeader(false);
+  // }
 
   function handleChange(e: React.FormEvent<HTMLInputElement>) {
     setInput(e.currentTarget.value)
@@ -82,12 +86,12 @@ const NavBar = (props: Props) => {
     return (
       <h2>Your Search results are as follows</h2>
     )
-    props.searchFunction()
+    // props.searchFunction()
   }
 
   // to generate the entire list of main menu items from the props received
   const inputList = inputMenu.map(function (ele: Options, index: number) {
-    if (ele.children?.length === 0 ) { //if children defined & length=0
+    if (ele.children?.length === 0 && ele.path) { //if children defined & length=0
       return (
         <li key={ele.id}>
           <Link to={ele.path}
@@ -147,11 +151,10 @@ const NavBar = (props: Props) => {
                     : { display: 'none' }
                 }
               >
-                {ele?.children.map((subEl: Options) => {
-                  // console.log('path from subEl', subEl.path)
+                {ele?.children.map((subEl: Suboptions) => {
                   return (
                     <li>
-                      <Link to={subEl.path} style={{textDecoration:'none', color:'yellow'}}>
+                      <Link to={subEl.path as string} style={{textDecoration:'none', color:'yellow'}}>
                         {subEl.text}
                       </Link>
                     </li>
@@ -169,7 +172,7 @@ const NavBar = (props: Props) => {
                     : styles.menuitemNestedH
                 }
                 style={
-                  menuHeader[ele.text] === ele.text
+                  menuHeader[ele.text]
                     ? {
                         position: 'absolute',
                         display: 'block',
@@ -179,7 +182,7 @@ const NavBar = (props: Props) => {
                     : { display: 'none' }
                 }
               >
-                {ele?.children.map((subEl: Options) => (
+                {ele?.children.map((subEl: Suboptions) => (
                   // eslint-disable-next-line react/jsx-key
 
                   <li><Link to={subEl.path} style={{textDecoration:'none',color:'black'}}>{subEl.text}</Link></li>
