@@ -42,8 +42,8 @@ const App = () => {
   return (
     <>
     <BrowserRouter>
-  
-    <NavBar allOptions = {optionsArray}  option = "horizontal"  orientation = "ltr" theme="slategrey" />  
+    {/* lang = "de" */}
+    <NavBar allOptions = {optionsArray}  option = "horizontal"  orientation = "ltr" theme="slategrey" search = "search"/>  
        <Switch>
           <Route exact path="/about" component={About} />
           <Route path="/consulting" component={Consulting}/>

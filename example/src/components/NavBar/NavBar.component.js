@@ -34,23 +34,31 @@ const NavBar = (props) => {
     return result;
   }
   // {Home: fale, Services:false, ...}
-  const [isShown, setIsShown] = useState(getSubMenuState(props.allOptions))
+  
+  const [menuHeader, setMenuHeader] = useState(getSubMenuState(props.allOptions))
   const [input, setInput] = useState('') //search button
 
   const dropDown = useRef([React.createRef(),React.createRef()]) //to see where it was clicked
 
-  useClickOutside(isShown, dropDown.current[0], hideSubMenu, 'Services') //Services should not be hard coded
-  useClickOutside(isShown, dropDown.current[1], hideSubMenu, 'Contact')  
+  useClickOutside(menuHeader, dropDown.current[0], hideSubMenu, 'Services') //Services should not be hard coded
+  useClickOutside(menuHeader, dropDown.current[1], hideSubMenu, 'Contact')  
 
+  // const [isShown, setIsShown] = useState(false)
+
+  // function showSubMenu(text) { //key of isShown object
+    
+  //   setIsShown(tex);
+  // }
 
   function showSubMenu(key) { //key of isShown object
-    const newState = {...isShown};
+    const newState = {...menuHeader};
+    console.log(newState)
     newState[key] = !newState[key];
-    setIsShown(newState);
+    setMenuHeader(newState);
   }
 
   function hideSubMenu() {
-    setIsShown(false)
+    setMenuHeader(false)
   }
 
   // to handle any search functionality passed as props by user to search made available on navbar
@@ -106,7 +114,7 @@ const NavBar = (props) => {
                     : styles.menuitemNestedV
                 }
                 style={
-                  isShown[ele.text]
+                  menuHeader[ele.text]
                     ? {
                         position: 'absolute',
                         display: 'block',
@@ -140,7 +148,7 @@ const NavBar = (props) => {
                     : styles.menuitemNestedH
                 }
                 style={
-                  isShown === ele.text
+                  menuHeader === ele.text
                     ? {
                         position: 'absolute',
                         display: 'block',
