@@ -1,6 +1,6 @@
 import React from 'react'
-import {BrowserRouter, Switch, Route} from 'react-router-dom'
-// import 'react-navbar-generator/dist/index.css'
+
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 import './index.css'
 
@@ -13,14 +13,13 @@ import Help from './components/Help.js'
 import NavBar from './components/NavBar/NavBar.component.js'
 
 
-
-const App = () => {  
+const App = () => {
 
   const optionsArray = [
     {
       "id":1,
       "text":"Home",
-      "children":[], //if no children do not have the key 
+      "children":[], //if no children do not have the key
       "path": "/about"
     },
     {
@@ -32,18 +31,14 @@ const App = () => {
       "id":3,
       "text":"Contact",
       "children":[{"id":3.1,"text":"Contact Info","path":"/info"},{"id":3.1,"text":"Reach us on mail","path":"/help"}]
-    
+
     }
-    // {
-    //   "option" = "horizontal"
-    // }
 ]
 
   return (
     <>
     <BrowserRouter>
-    {/* lang = "de" */}
-    <NavBar allOptions = {optionsArray}  option = "horizontal"  orientation = "ltr" theme="slategrey" search = "search"/>  
+    <NavBar allOptions = {optionsArray}  option = "horizontal"  orientation = "ltr" theme="slategrey" search = "search"/>
        <Switch>
           <Route exact path="/about" component={About} />
           <Route path="/consulting" component={Consulting}/>
@@ -52,7 +47,7 @@ const App = () => {
           <Route path="/info" component = {Info} />
           <Route path="/help" component = {Help} />
        </Switch>
-       
+
     </BrowserRouter>
   </>
   )
