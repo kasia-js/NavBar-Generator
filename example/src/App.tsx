@@ -9,6 +9,7 @@ import Ventures from './components/Ventures.js'
 import Info from './components/Info.js'
 import Help from './components/Help.js'
 import NavBar from './components/NavBar/NavBar.component'
+//import props
 
 const App = (): JSX.Element => {
   function userFunction () {

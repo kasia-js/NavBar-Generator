@@ -7,17 +7,18 @@ import { Link, BrowserRouter } from 'react-router-dom'
 import useClickOutside from './customHook.js'
 import { stringify } from 'querystring'
 
+
 const icon = require('../../assets/menuIcon.jpeg')
 const searchIcon = require('../../assets/searchIcon.png')
 
-interface Props {
-  orientation: string,
-  lang: string,
-  searchFunction: Function,
-  option: string,
-  theme: string,
-  search: string
-};
+// export interface Props {
+//   orientation: string,
+//   lang: string,
+//   searchFunction: Function,
+//   option: string,
+//   theme: string,
+//   search: string
+// };
 
 interface Menu {
   id: number,

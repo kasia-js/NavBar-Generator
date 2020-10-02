@@ -1,13 +1,11 @@
-import React, { useState, Fragment, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 
 import styles from './styles.module.css'
-import { Link, BrowserRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import useClickOutside from './customHook.js'
 
 const icon = require('../../assets/menuIcon.jpeg')
 const searchIcon = require('../../assets/searchIcon.png')
-
-
 
 const NavBar = (props) => {
   var langjson
@@ -18,41 +16,44 @@ const NavBar = (props) => {
   else orientation = 'LTR'
 
   if (props.lang === 'en') {
-    langjson = require('./en.json')
+    // langjson = require('./en.json')
+    inputMenu = langjson.menu
   } else if (props.lang === 'de') {
     langjson = require('./de.json')
+    inputMenu = langjson.menu
   } else if (props.lang === 'ar') {
     langjson = require('./ar.json')
+    inputMenu = langjson.menu
+  } else if (!props.lang) {
+    inputMenu = props.allOptions
   }
 
-  inputMenu = langjson.menu
+  const getSubMenuState = (navigationOptions) => {
+    const result = {};
+    navigationOptions.forEach((option) => result[option.text] = false)
+    return result;
+  }
+  // {Home: fale, Services:false, ...}
 
-  const [isShown, setIsShown] = useState('')
-  const [input, setInput] = useState('')
+  const [menuHeader, setMenuHeader] = useState(getSubMenuState(props.allOptions))
+  const [input, setInput] = useState('') //search button
 
-  const dropDown = useRef([React.createRef(),React.createRef()])
+  const dropDown = useRef([React.createRef(),React.createRef()]) //to see where it was clicked
 
-  useClickOutside(isShown, dropDown.current[0], hideSubMenu, 'Services')
-  useClickOutside(isShown, dropDown.current[1], hideSubMenu, 'Contact')
+  useClickOutside(menuHeader, dropDown.current[0], hideSubMenu, 'Services')
+  useClickOutside(menuHeader, dropDown.current[1], hideSubMenu, 'Contact')
 
 
-  //  function to generate the nested drop-down items on mouse event on a nested parent menu item
-//   const handleClick = function (e,text,id) {
-//     console.log(e.target.id)
-//    if (e.target.id === id) {
-//  // if (node.current.contains(e.target)) {
-//       return showSubMenu(text)
-//     } else {
-//       return hideSubMenu()
-//     }
-//   }
-  function showSubMenu(text) {
-    // console.log(e.target.text)
-    setIsShown(text)
+
+  function showSubMenu(key) { //key of isShown object
+    const newState = {...menuHeader};
+    console.log(newState)
+    newState[key] = !newState[key];
+    setMenuHeader(newState);
   }
 
   function hideSubMenu() {
-    setIsShown(false)
+    setMenuHeader(false)
   }
 
   // to handle any search functionality passed as props by user to search made available on navbar
@@ -70,9 +71,9 @@ const NavBar = (props) => {
     props.searchFunction()
   }
 
-  // to generate the entire list of main menu items from props json
-  const inputList = inputMenu.map(function (ele, index) { //maps over menu.array
-    if (ele.children.length === 0) { //if children is [], links to path specified in parent
+  // to generate the entire list of main menu items from the props received
+  const inputList = inputMenu.map(function (ele, index) {
+    if (ele.children?.length === 0 ) { //if children defined & length=0
       return (
         <li id={ele.id}>
           <Link to={ele.path}
@@ -122,7 +123,7 @@ const NavBar = (props) => {
                 }
 
                 style={
-                  isShown === ele.text
+                  menuHeader[ele.text]
                     ? {
                         position: 'absolute',
                         display: 'block',
@@ -132,9 +133,8 @@ const NavBar = (props) => {
                     : { display: 'none' }
                 }
               >
-
-              {/* maps children and displays children in ul list => */}
-                {ele.children.map((subEl) => {
+                {ele?.children.map((subEl) => {
+                  // console.log('path from subEl', subEl.path)
                   return (
                     <li>
                       <Link to={subEl.path} style={{textDecoration:'none', color:'yellow'}}>
@@ -155,7 +155,7 @@ const NavBar = (props) => {
                     : styles.menuitemNestedH
                 }
                 style={
-                  isShown === ele.text
+                  menuHeader === ele.text
                     ? {
                         position: 'absolute',
                         display: 'block',
@@ -165,7 +165,9 @@ const NavBar = (props) => {
                     : { display: 'none' }
                 }
               >
-                {ele.children.map((subEl) => (
+                {ele?.children.map((subEl) => (
+                  // eslint-disable-next-line react/jsx-key
+
                   <li><Link to={subEl.path} style={{textDecoration:'none',color:'black'}}>{subEl.text}</Link></li>
                 ))}
               </ul>
