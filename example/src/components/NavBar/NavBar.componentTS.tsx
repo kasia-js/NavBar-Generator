@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react'
 import styles from './styles.module.css';
 
 import { Link } from 'react-router-dom'
-import useClickOutside from './customHook.js'
+// import useClickOutside from './customHook.js'
 
 import icon from '../../assets/menuIcon.jpeg'; //loader for jpeg files
 // const searchIcon = require('../../assets/searchIcon.png')
@@ -32,49 +32,64 @@ interface Suboptions {
 }
 
 const NavBar = (props: Props) => {
-  let langjson;
+  let langjson 
   let orientation : string;
 
   if (props.orientation === 'rtl') orientation = 'RTL'
   else orientation = 'LTR'
 
   if (props.lang === 'en') {
-    langjson = require('./en.json')
+    // langjson = require('./en.json')
+    // langjson = import('./en.json')
   } else if (props.lang === 'de') {
-    langjson = require('./de.json')
+    langjson = import('./de.json')
   } else if (props.lang === 'ar') {
     langjson = require('./ar.json')
+  } else {
+    langjson = props.optionsArray
   }
 
-  let inputMenu : Options[] = langjson.menu;
-
+  let inputMenu : Options[] = langjson
+  // let inputMenu : Options[] = langjson.menu;
+  
   interface Result {
     [key: string]: boolean,
   }
-
-  const getSubMenuState = (navigationOptions: Options[]) => {
+// setInitialSubMenuState
+  const setInitialSubMenuState = (navigationOptions: Options[]) => {
     let result: Result = {};
     navigationOptions.forEach((option: Options) => result[option.text] = false);
+    console.log('setInitialSubMenuState',result)
     return result;
   }
 
-  const [menuHeader, setMenuHeader] = useState<Result>(getSubMenuState(props.optionsArray));
+  const [menuHeader, setMenuHeader] = useState<Result>(setInitialSubMenuState(props.optionsArray));
   const [input, setInput] = useState<string>('')
 
   const dropDown = useRef([React.createRef<HTMLDivElement>(),React.createRef<HTMLDivElement>()])
 
   // useClickOutside(menuHeader, dropDown.current[0], hideSubMenu, 'Services')
   // useClickOutside(menuHeader, dropDown.current[1], hideSubMenu, 'Contact')
-
-  function showSubMenu(text: string) { //key of isShown object
+//changeInitialSubMenuState
+  function changeInitialSubMenuState(text: string) { //key of isShown object
     const newState: Result = {...menuHeader};
     newState[text] = !newState[text]; //do we need to set boolean ts here
+    
     setMenuHeader(newState);
+    console.log('changeInitialSubMenuState',newState)
   }
 
-  // function hideSubMenu() {
-  //   setMenuHeader(false);
-  // }
+  //if (clicOutsideEvent & newState[text])=== true => newState[text] = false
+  //hideSubMenu happens on clickOutside
+  function hideSubMenu (text: string) {
+    const OnClickOutsideUpdateState: Result = {...menuHeader};
+    if(OnClickOutsideUpdateState[text] === true) {
+      OnClickOutsideUpdateState[text] = !OnClickOutsideUpdateState[text];
+      setMenuHeader(OnClickOutsideUpdateState);
+    }
+  }
+
+  // onclick={() => hideSubMenu(ele.text)}
 
   function handleChange(e: React.FormEvent<HTMLInputElement>) {
     setInput(e.currentTarget.value)
@@ -108,7 +123,8 @@ const NavBar = (props: Props) => {
         <>
           <li
             key={ele.id}
-            onClick={() => showSubMenu(ele.text)}
+            onClick={() => changeInitialSubMenuState(ele.text)}
+            
             style={
               props.option === 'vertical'
                     ? {
@@ -125,7 +141,7 @@ const NavBar = (props: Props) => {
           >
         {/*renders parent text */}
             {ele.text}
-
+             {/* hello World */}
             {/*checks horizontal or vertical option prop */}
 
             {props.option === 'horizontal' && (
@@ -146,7 +162,7 @@ const NavBar = (props: Props) => {
                         position: 'absolute',
                         display: 'block',
                         float: 'right',
-                        backgroundColor: 'green'
+                        backgroundColor: 'red'
                       }
                     : { display: 'none' }
                 }
@@ -162,7 +178,9 @@ const NavBar = (props: Props) => {
                 })}
               </ul>
               </div>
+              
             )}
+            
             {props.option === 'vertical' && (
               <div ref={dropDown.current[index - 1]}>
               <ul
@@ -181,7 +199,7 @@ const NavBar = (props: Props) => {
                       }
                     : { display: 'none' }
                 }
-              >
+              > 
                 {ele?.children.map((subEl: Suboptions) => (
                   // eslint-disable-next-line react/jsx-key
 
