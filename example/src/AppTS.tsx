@@ -10,7 +10,7 @@ import Projects from './components/Projects.js'
 import Ventures from './components/Ventures.js'
 import Info from './components/Info.js'
 import Help from './components/Help.js'
-import NavBar, {Options} from './components/NavBar/NavBar.component';
+import NavBar, {Options} from './components/NavBar/NavBar.componentTS';
 
 
 // export interface Options {
