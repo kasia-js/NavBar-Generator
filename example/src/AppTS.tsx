@@ -37,9 +37,18 @@ const AppTS = () => {
   return (
 
     <BrowserRouter>
-      <NavBarTS optionsArray={optionsArray}  option = "vertical"  orientation = "rtl" theme="slategrey" search = "search"/>
-    </BrowserRouter>
+      <NavBarTS optionsArray = {optionsArray}  option = "horizontal"  orientation = "ltr" theme="slategrey" search = "search"/>
 
+        {/* <Switch>
+          <Route exact path="/about" component={About} />
+          <Route path="/consulting" component={Consulting}/>
+          <Route path="/projects" component = {Projects} />
+          <Route path="/ventures" component = {Ventures} />
+          <Route path="/info" component = {Info} />
+          <Route path="/help" component = {Help} />
+        </Switch> */}
+
+    </BrowserRouter>
   )
 }
 export default AppTS
