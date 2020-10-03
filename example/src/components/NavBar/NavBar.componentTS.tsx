@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 
 import icon from '../../assets/menuIcon.jpeg'; //loader for jpeg files
 // const searchIcon = require('../../assets/searchIcon.png')
+import './styles.scss'
 
 interface Props {
   orientation: string,
@@ -122,8 +123,9 @@ const NavBar = (props: Props) => {
       return (
         <>
           <li
+            className='nav_title'
             key={ele.id}
-            onClick={() => changeInitialSubMenuState(ele.text)}
+            // onClick={() => changeInitialSubMenuState(ele.text)}
             
             style={
               props.option === 'vertical'
@@ -150,11 +152,12 @@ const NavBar = (props: Props) => {
           {/*children rendered in ul// checks isShown state*/}
           {/*if isShown === 'services' or 'contact'*/}
               <ul
-                className={
-                  orientation === 'RTL'
-                    ? styles.menuitemNestedVRTL
-                    : styles.menuitemNestedV
-                }
+                className='ul_child'
+                // {
+                //   orientation === 'RTL'
+                //     ? styles.menuitemNestedVRTL
+                //     : styles.menuitemNestedV
+                // }
 
                 style={
                   menuHeader[ele.text]
@@ -162,7 +165,7 @@ const NavBar = (props: Props) => {
                         position: 'absolute',
                         display: 'block',
                         float: 'right',
-                        backgroundColor: 'red'
+                        backgroundColor: 'blue'
                       }
                     : { display: 'none' }
                 }

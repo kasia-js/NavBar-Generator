@@ -1,0 +1,12 @@
+.nav_title {
+
+  &:hover {
+    .ul_child {
+      display: block !important;
+    }
+  }
+
+  .ul_child {
+    display: none !important;
+  }
+}
