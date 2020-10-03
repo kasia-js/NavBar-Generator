@@ -75,7 +75,7 @@ const NavBar = (props) => {
   const inputList = inputMenu.map(function (ele, index) {
     if (ele.children?.length === 0 ) { //if children defined & length=0
       return (
-        <li id={ele.id}>
+        <li key={ele.id}>
           <Link to={ele.path}
             style={ props.option=== 'vertical'
             ? {textDecoration:'none', color:'yellow'}
@@ -89,7 +89,7 @@ const NavBar = (props) => {
       return (
         <>
           <li
-            id={ele.id}
+            key={ele.id}
             onClick={() => showSubMenu(ele.text)}
             style={
               props.option === 'vertical'

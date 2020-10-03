@@ -1,33 +1,37 @@
-import React, { useState, Fragment, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 
-declare function require(name: string): any; //TODO replace any
-const styles = require('./styles.module.css')
-// import styles from './styles.module.css'
-import { Link, BrowserRouter } from 'react-router-dom'
+import styles from './styles.module.css';
+
+import { Link } from 'react-router-dom'
 import useClickOutside from './customHook.js'
-import { stringify } from 'querystring'
 
+import icon from '../../assets/menuIcon.jpeg'; //loader for jpeg files
+// const searchIcon = require('../../assets/searchIcon.png')
 
-const icon = require('../../assets/menuIcon.jpeg')
-const searchIcon = require('../../assets/searchIcon.png')
+interface Props {
+  orientation: string,
+  lang?: string,
+  searchFunction?: Function,
+  option: string,
+  theme: string,
+  search: string,
+  optionsArray: Options[]
+};
 
-// export interface Props {
-//   orientation: string,
-//   lang: string,
-//   searchFunction: Function,
-//   option: string,
-//   theme: string,
-//   search: string
-// };
-
-interface Menu {
+export interface Options {
   id: number,
   text: string,
-  children: [],
+  children: Suboptions[],
+  path?: string
+}
+
+interface Suboptions {
+  id: number,
+  text: string,
   path: string
 }
 
-const NavBar = (props: Props): JSX.Element => {
+const NavBar = (props: Props) => {
   let langjson;
   let orientation : string;
 
@@ -42,37 +46,36 @@ const NavBar = (props: Props): JSX.Element => {
     langjson = require('./ar.json')
   }
 
-  let inputMenu : Menu[] = langjson.menu;
+  let inputMenu : Options[] = langjson.menu;
 
+  interface Result {
+    [key: string]: boolean,
+  }
 
-  const [isShown, setIsShown] = useState<string>(''); //isShown was boolean but later passed text string??
-  const [input, setInput] = useState<string>('');
+  const getSubMenuState = (navigationOptions: Options[]) => {
+    let result: Result = {};
+    navigationOptions.forEach((option: Options) => result[option.text] = false);
+    return result;
+  }
+
+  const [menuHeader, setMenuHeader] = useState<Result>(getSubMenuState(props.optionsArray));
+  const [input, setInput] = useState<string>('')
 
   const dropDown = useRef([React.createRef<HTMLDivElement>(),React.createRef<HTMLDivElement>()])
 
-  useClickOutside(isShown, dropDown.current[0], hideSubMenu, 'Services')
-  useClickOutside(isShown, dropDown.current[1], hideSubMenu, 'Contact')
+  // useClickOutside(menuHeader, dropDown.current[0], hideSubMenu, 'Services')
+  // useClickOutside(menuHeader, dropDown.current[1], hideSubMenu, 'Contact')
 
-
-  //  function to generate the nested drop-down items on mouse event on a nested parent menu item
-//   const handleClick = function (e,text,id) {
-//     console.log(e.target.id)
-//    if (e.target.id === id) {
-//  // if (node.current.contains(e.target)) {
-//       return showSubMenu(text)
-//     } else {
-//       return hideSubMenu()
-//     }
-//   }
-  function showSubMenu(text: string) { //incorrect parameters; should boolean be passed to setIsShown???
-    setIsShown(text)
+  function showSubMenu(text: string) { //key of isShown object
+    const newState: Result = {...menuHeader};
+    newState[text] = !newState[text]; //do we need to set boolean ts here
+    setMenuHeader(newState);
   }
 
-  function hideSubMenu() {
-    setIsShown('') //changed false to ''
-  }
+  // function hideSubMenu() {
+  //   setMenuHeader(false);
+  // }
 
-  // to handle any dearch functionality passed as props by user to search made available on navbar
   function handleChange(e: React.FormEvent<HTMLInputElement>) {
     setInput(e.currentTarget.value)
   }
@@ -83,18 +86,24 @@ const NavBar = (props: Props): JSX.Element => {
     return (
       <h2>Your Search results are as follows</h2>
     )
-    props.searchFunction()
+    // props.searchFunction()
   }
 
   // to generate the entire list of main menu items from the props received
-  const inputList = inputMenu.map(function (ele: Menu, index: number) {
-    if (ele.children.length === 0) {
+  const inputList = inputMenu.map(function (ele: Options, index: number) {
+    if (ele.children?.length === 0 && ele.path) { //if children defined & length=0
       return (
         <li key={ele.id}>
-          <Link to={ele.path} style={props.option=== 'vertical'? {textDecoration:'none',color:'black'}:{textDecoration:'none',color:'white'}}>{ele.text}</Link>
+          <Link to={ele.path}
+            style={ props.option=== 'vertical'
+            ? {textDecoration:'none', color:'yellow'}
+            : {textDecoration:'none', color:'white'}}
+            >
+              {ele.text}
+            </Link>
         </li>
       )
-    } else
+    } else //if children is not an empty array, parents will be displayed in li
       return (
         <>
           <li
@@ -105,39 +114,49 @@ const NavBar = (props: Props): JSX.Element => {
                     ? {
                         position: 'relative',
                         float: 'right',
-                        color:'black'
+                        color:'red'
                       }
-                    : {  position: 'relative',
-                        float: 'right',
-                        color:'white' }
-            }
+                    : {
+                      position: 'relative',
+                      float: 'right',
+                      color:'purple'
+                  }
+              }
           >
+        {/*renders parent text */}
             {ele.text}
+
+            {/*checks horizontal or vertical option prop */}
+
             {props.option === 'horizontal' && (
               <div ref={dropDown.current[index - 1]}>
-              <ul
 
+          {/*children rendered in ul// checks isShown state*/}
+          {/*if isShown === 'services' or 'contact'*/}
+              <ul
                 className={
                   orientation === 'RTL'
                     ? styles.menuitemNestedVRTL
                     : styles.menuitemNestedV
                 }
+
                 style={
-                  isShown === ele.text
+                  menuHeader[ele.text]
                     ? {
                         position: 'absolute',
                         display: 'block',
                         float: 'right',
-                        backgroundColor: 'slategrey'
+                        backgroundColor: 'green'
                       }
                     : { display: 'none' }
                 }
               >
-                {ele.children.map((subEl: Menu) => {
+                {ele?.children.map((subEl: Suboptions) => {
                   return (
-
                     <li>
-                      <Link to={subEl.path} style={{textDecoration:'none',color:'white'}}>{subEl.text}</Link>
+                      <Link to={subEl.path as string} style={{textDecoration:'none', color:'yellow'}}>
+                        {subEl.text}
+                      </Link>
                     </li>
                   )
                 })}
@@ -153,7 +172,7 @@ const NavBar = (props: Props): JSX.Element => {
                     : styles.menuitemNestedH
                 }
                 style={
-                  isShown === ele.text
+                  menuHeader[ele.text]
                     ? {
                         position: 'absolute',
                         display: 'block',
@@ -163,7 +182,7 @@ const NavBar = (props: Props): JSX.Element => {
                     : { display: 'none' }
                 }
               >
-                {ele.children.map((subEl: Menu) => (
+                {ele?.children.map((subEl: Suboptions) => (
                   // eslint-disable-next-line react/jsx-key
 
                   <li><Link to={subEl.path} style={{textDecoration:'none',color:'black'}}>{subEl.text}</Link></li>
@@ -186,7 +205,7 @@ const NavBar = (props: Props): JSX.Element => {
                 className={styles.menuitemH}
                 style={props.theme ? { backgroundColor: props.theme } : {}}
               >
-                <img src={icon} alt='menu icon' width='50px' height='40px' />
+                <img src={icon} alt='menu icon' width='100' height='100' />
                 {inputList}
                 <div
                   style={
@@ -199,7 +218,7 @@ const NavBar = (props: Props): JSX.Element => {
               <input
                     className={styles.searchBarHInput}
                     type='text'
-                    placeholder='Search'
+                    placeholder='HELLO FROM SEARCH'
                     value={input}
                     onChange={handleChange}
                   />
@@ -219,6 +238,8 @@ const NavBar = (props: Props): JSX.Element => {
             </nav>
           </div>
         )}
+
+        {/* no search input in horizontal in rtl */}
         {props.option === 'horizontal' && props.orientation === 'rtl' && (
           <div className='navbar'>
             <ul
@@ -230,6 +251,10 @@ const NavBar = (props: Props): JSX.Element => {
             </ul>
           </div>
         )}
+
+
+      {/* doesn't make sense to have vertical AND ltr */}
+
         {props.option === 'vertical' && props.orientation === 'ltr' && (
           <div className='navbarV'>
             <nav>
@@ -255,8 +280,7 @@ const NavBar = (props: Props): JSX.Element => {
                     onChange={handleChange}
                   />
                   <br />
-                    <button type='submit'
-                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit}>
+                    <button type='submit' onClick={handleSubmit}>
                       Go
                     </button>
                 </div>
