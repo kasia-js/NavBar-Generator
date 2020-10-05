@@ -33,7 +33,7 @@ interface Suboptions {
 }
 
 const NavBar = (props: Props) => {
-  let langjson 
+  let langjson
   let orientation : string;
 
   if (props.orientation === 'rtl') orientation = 'RTL'
@@ -52,7 +52,7 @@ const NavBar = (props: Props) => {
 
   let inputMenu : Options[] = langjson
   // let inputMenu : Options[] = langjson.menu;
-  
+
   interface Result {
     [key: string]: boolean,
   }
@@ -75,7 +75,7 @@ const NavBar = (props: Props) => {
   function changeInitialSubMenuState(text: string) { //key of isShown object
     const newState: Result = {...menuHeader};
     newState[text] = !newState[text]; //do we need to set boolean ts here
-    
+
     setMenuHeader(newState);
     console.log('changeInitialSubMenuState',newState)
   }
@@ -126,7 +126,7 @@ const NavBar = (props: Props) => {
             className='nav_title'
             key={ele.id}
             // onClick={() => changeInitialSubMenuState(ele.text)}
-            
+
             style={
               props.option === 'vertical'
                     ? {
@@ -181,9 +181,9 @@ const NavBar = (props: Props) => {
                 })}
               </ul>
               </div>
-              
+
             )}
-            
+
             {props.option === 'vertical' && (
               <div ref={dropDown.current[index - 1]}>
               <ul
@@ -202,7 +202,7 @@ const NavBar = (props: Props) => {
                       }
                     : { display: 'none' }
                 }
-              > 
+              >
                 {ele?.children.map((subEl: Suboptions) => (
                   // eslint-disable-next-line react/jsx-key
 
