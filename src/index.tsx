@@ -5,9 +5,9 @@ import styles from './styles.module.css';
 import { Link } from 'react-router-dom'
 // import useClickOutside from './customHook.js'
 
-import icon from '../../assets/menuIcon.jpeg'; //loader for jpeg files
+import icon from './assets/menuIcon.jpeg'; //loader for jpeg files
 // const searchIcon = require('../../assets/searchIcon.png')
-import './styles.scss'
+// import './styles.scss'
 
 interface Props {
   orientation: string,
@@ -32,7 +32,7 @@ interface Suboptions {
   path: string
 }
 
-const NavBar = (props: Props) => {
+export const NavBar = (props: Props) => {
   let langjson
   let orientation : string;
 
@@ -80,8 +80,8 @@ const NavBar = (props: Props) => {
   //   console.log('changeInitialSubMenuState',newState)
   // }
 
-  //if (clicOutsideEvent & newState[text])=== true => newState[text] = false
-  //hideSubMenu happens on clickOutside
+  // //if (clicOutsideEvent & newState[text])=== true => newState[text] = false
+  // //hideSubMenu happens on clickOutside
   // function hideSubMenu (text: string) {
   //   const OnClickOutsideUpdateState: Result = {...menuHeader};
   //   if(OnClickOutsideUpdateState[text] === true) {
@@ -313,4 +313,4 @@ const NavBar = (props: Props) => {
       </div>
   )
 }
-export default NavBar;
+// export default NavBar;

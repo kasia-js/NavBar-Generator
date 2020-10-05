@@ -26,27 +26,29 @@ describe('AppTS', () => {
     expect(div).toBeInTheDocument();
   });
 
-  it('user starts on home page', () => {
-    render(<AppTS />);
-    ReactDOM.render(
-      <MemoryRouter initialEntries={["/home"]}>
-        <NavBar />
-      </MemoryRouter>
-    )
-  });
-
   it('should redirect invalid paths to 404', () => {
     render(<AppTS />);
-    const wrapper = render(
-      <MemoryRouter initialEntries={[ '/invalid' ]}>
-        <NavBar/>
+    const div = document.createElement('div');
+    ReactDOM.render(
+      <MemoryRouter initialEntries={['/invalid']}>
+        <NavBar />
       </MemoryRouter>
-    );
-    expect(wrapper.find(NavBar)).toHaveLength(0);
+    , div);
     expect(screen.getByText("Oops, wrong page!")).toBeInTheDocument();
   });
 
-  it('renders the right component with the valid path', () => {
+  it('should NOT redirect valid paths to 404', () => {
+    render(<AppTS />);
+    const div = document.createElement('div');
+    ReactDOM.render(
+      <MemoryRouter initialEntries={['/']}>
+        <NavBar />
+      </MemoryRouter>
+    , div);
+    expect(div).toBeInTheDocument()
+  });
+
+  it('renders the right component with the valid /about path', () => {
     render(<AppTS />);
     const div = document.createElement('div');
     ReactDOM.render(

@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavBar } from 'react-navbar-generator';
 
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
@@ -10,7 +11,9 @@ import Projects from './components/Projects.js'
 import Ventures from './components/Ventures.js'
 import Info from './components/Info.js'
 import Help from './components/Help.js'
-import NavBar, {Options} from './components/NavBar/NavBar.componentTS';
+import {Options} from './components/NavBar/NavBar.componentTS';
+
+console.log(NavBar)
 
 
 // export interface Options {
@@ -45,7 +48,7 @@ const App = () => {
   return (
     <>
     <BrowserRouter>
-    <NavBar optionsArray={optionsArray}  option = "horizontal"  orientation = "ltr" theme="slategrey" search = "search"/>
+    {/* <NavBar optionsArray={optionsArray}  option = "horizontal"  orientation = "ltr" theme="slategrey" search = "search"/> */}
        <Switch>
           <Route exact path="/about" component={About} />
           <Route path="/consulting" component={Consulting}/>
